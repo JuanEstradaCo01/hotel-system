@@ -5,7 +5,7 @@ class RoomDao {
         this.model = RoomModel
     }
 
-    async getRooms(){
+    async getRooms() {
         return this.model.find()
     }
 
@@ -19,6 +19,29 @@ class RoomDao {
             type: body.type,
             price: body.price,
             state: body.state
+        })
+    }
+
+    async updateStateRoom(bid, body) {
+        const booking = await this.getRoomById(bid)
+
+        if (!booking) {
+            throw new Error("La habitacion no existe")
+        }
+
+        const update = {
+            state: body.state
+        }
+
+        return this.model.updateOne({ _id: bid }, update)
+    }
+
+    async newBooking(body) {
+        return this.model.create({
+            roomNumber: body.roomNumber,
+            type: body.type,
+            guestName: body.guestName,
+            nightsQuantity: body.nightsQuantity
         })
     }
 }

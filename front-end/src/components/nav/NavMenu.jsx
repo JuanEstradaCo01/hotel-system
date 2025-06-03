@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-function OffcanvasExample() {
+function NavMenu() {
     return (
         <>
             {[false].map((expand) => (
@@ -40,4 +40,4 @@ function OffcanvasExample() {
     );
 }
 
-export default OffcanvasExample;
+export default NavMenu;

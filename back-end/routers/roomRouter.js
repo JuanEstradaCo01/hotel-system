@@ -1,7 +1,9 @@
 import { Router } from "express";
-import RoomDao from "../DAO/roomDao.js"
+import RoomDao from "../DAO/roomDao.js";
+import BookingDao from "../DAO/bookingDao.js";
 
 const roomDao = new RoomDao();
+const bookingDao = new BookingDao()
 
 const roomRouter = Router()
 
@@ -13,7 +15,6 @@ roomRouter.get("/rooms", async (req, res) => {
         return res.status(200).json(rooms)
     } catch (e) {
         return res.status(500).json({
-            code: 500,
             message: "Ocurrio un error al consultar las habitaciones"
         })
     }
@@ -54,6 +55,53 @@ roomRouter.post("/createRoom", async (req, res) => {
     }
 })
 
+//Crear reserva
+roomRouter.post("/newBooking", async (req, res) => {
+    try{
+        const body = req.body
+
+        //Valido si hay informacion faltante
+        if (body.roomNumber === "" || body.type === "" || body.guestName === "" || body.nightsQuantity === "") {
+            let body = {}
+            body.message = "Datos faltantes"
+            return res.status(401).json(body)
+        }
+
+        const rooms = await roomDao.getRooms()
+
+        const room = rooms.find(item => item.roomNumber == body.roomNumber)
+
+        if(!room) {
+            return res.status(404).json({
+                message: "La habitacion no existe"
+            })
+        }
+
+        if(room.state === "Ocupado") {
+            return res.status(401).json({
+                message: "La habitacion esta ocupada"
+            })
+        }
+
+        //Se hace la reserva
+        await bookingDao.newBooking(body)
+
+        //Se actualiza estado habitacion
+        await roomDao.updateStateRoom(room._id, {
+            state: "Ocupado"
+        })
+
+        return res.status(201).json({
+            message: `Reserva creada con exito`
+        })
+
+    }catch{
+        return res.status(500).json({
+            error: "Error al crear la reserva"
+        })
+    }
+})
+
 //Consultar habitacion por ID
 roomRouter.get("/room/:id", async (req, res) => {
 
@@ -69,6 +117,97 @@ roomRouter.get("/room/:id", async (req, res) => {
         })
     }
 
+})
+
+//Consultar habitaciones libres
+roomRouter.get("/roomsAvailables", async (req, res) => {
+    try{
+        const roomsAvailables = []
+
+        const rooms = await roomDao.getRooms()
+
+        //Valido la consulta y si existen habitaciones
+        if(!rooms || rooms.length === 0){
+            return res.status(404).json({
+                message: "No existen habitaciones"
+            })
+        };
+
+        rooms.forEach(item => {
+            if(item.state === "Disponible"){
+                roomsAvailables.push(item)
+            }
+        });
+
+        return res.status(200).json(roomsAvailables)
+    }catch{
+        return res.status(500).json({
+            error: "Error al consultar las habitaciones"
+        })
+    }
+})
+
+//Consultar habitaciones ocupadas
+roomRouter.get("/roomsBusies", async (req, res) => {
+    try{
+        const roomsBusies = []
+
+        const rooms = await roomDao.getRooms()
+
+        //Valido la consulta y si existen habitaciones
+        if(!rooms || rooms.length === 0){
+            return res.status(404).json({
+                message: "No existen habitaciones"
+            })
+        };
+
+        rooms.forEach(item => {
+            if(item.state === "Ocupado"){
+                roomsBusies.push(item)
+            }
+        });
+
+        return res.status(200).json(roomsBusies)
+    }catch{
+        return res.status(500).json({
+            error: "Error al consultar las habitaciones"
+        })
+    }
+})
+
+//Liberar habitacion ocupada
+roomRouter.put("/releaseRooms/:rid", async (req, res) => {
+    try{
+        const rid = req.params.rid
+
+        const rooms = await roomDao.getRooms()
+
+        const room = rooms.find(item => item._id == rid)
+
+        if(!room){
+            return res.status(404).json({
+                message: "La habitacion no existe"
+            })
+        }
+
+        if(room.state === "Disponible"){
+            return res.status(401).json({
+                message: "La habitacion actualmente ya estaba disponible"
+            })
+        }
+
+        await roomDao.updateStateRoom(rid, {
+            state: "Disponible"
+        })
+
+        return res.status(200).json({
+            message: `Habitacion ${room.roomNumber} liberada`
+        })
+    }catch{
+        return res.status(500).json({
+            message: "Error al liberar la habitacion"
+        })
+    }
 })
 
 export default roomRouter;

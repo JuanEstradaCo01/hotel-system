@@ -20,13 +20,15 @@ function DashBoard() {
             </div>
 
             <div className="cardsDashBoardContainer">
-                <div className="cardDashboardContainer">
-                    <img src={NuevaReserva} alt="Nueva reserva" />
+                <Link to={"/newBooking"}>
+                    <div className="cardDashboardContainer">
+                        <img src={NuevaReserva} alt="Nueva reserva" />
 
-                    <div className="tittleCardDashboardContainer">
-                        <h3>Nueva reserva</h3>
+                        <div className="tittleCardDashboardContainer">
+                            <h3>Nueva reserva</h3>
+                        </div>
                     </div>
-                </div>
+                </Link>
 
                 <Link to={"/rooms"}>
                     <div className="cardDashboardContainer">
@@ -38,21 +40,25 @@ function DashBoard() {
                     </div>
                 </Link>
 
-                <div className="cardDashboardContainer">
-                    <img src={Habitacion} alt="Nueva reserva" />
+                <Link to={"/roomsState"}>
+                    <div className="cardDashboardContainer">
+                        <img src={Habitacion} alt="Nueva reserva" />
 
-                    <div className="tittleCardDashboardContainer">
-                        <h3>Habitaciones ocupadas/libres</h3>
+                        <div className="tittleCardDashboardContainer">
+                            <h3>Habitaciones ocupadas/libres</h3>
+                        </div>
                     </div>
-                </div>
+                </Link>
 
-                <div className="cardDashboardContainer">
-                    <img src={Liberar} alt="Nueva reserva" />
+                <Link to={"/releaseRooms"}>
+                    <div className="cardDashboardContainer">
+                        <img src={Liberar} alt="Nueva reserva" />
 
-                    <div className="tittleCardDashboardContainer">
-                        <h3>Liberar habitacion (checkout)</h3>
+                        <div className="tittleCardDashboardContainer">
+                            <h3>Liberar habitacion (checkout)</h3>
+                        </div>
                     </div>
-                </div>
+                </Link>
 
                 <div className="cardDashboardContainer">
                     <img src={Facturacion} alt="Nueva reserva" />

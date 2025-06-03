@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const collection = "Rooms"
 
-const userSchema = mongoose.Schema({
+const roomSchema = mongoose.Schema({
     roomNumber: Number,
     type: String,
     price: Number,
@@ -11,4 +11,4 @@ const userSchema = mongoose.Schema({
     nightsQuantity: Number
 });
 
-export default mongoose.model(collection, userSchema)
+export default mongoose.model(collection, roomSchema)

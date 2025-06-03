@@ -1,35 +1,34 @@
-import "./roomsState.css";
-import NavMenu from "../../nav/NavMenu";
-import { useState, useEffect } from "react";
+import NavMenu from "../../../nav/NavMenu"
+import "./roomsAvailables.css"
+import { useState, useEffect } from "react"
 import Swal from "sweetalert2";
 import withReactComponent from "sweetalert2-react-content";
-import Sencilla from "../../../imgs/sencilla.jpg";
-import Doble from "../../../imgs/doble.jpg";
-import Suite from "../../../imgs/suite.jpg";
-import Loader from "../../loader/Loader.jsx";
+import Sencilla from "../../../../imgs/sencilla.jpg"
+import Doble from "../../../../imgs/doble.jpg"
+import Suite from "../../../../imgs/suite.jpg"
+import Loader from "../../../loader/Loader";
 
-function RoomsState() {
+function RoomsAvailables() {
 
-    const [bookings, setBooking] = useState([])
+    const [rooms, setRooms] = useState([]);
     const [loader, setLoader] = useState(false)
 
-    const MySwal = withReactComponent(Swal)
+    const MySwal = withReactComponent(Swal);
 
     useEffect(() => {
-        //Activo el loader
+
         setLoader(true)
 
-        fetch(`http://localhost:8080/rooms`, {
+        fetch(`http://localhost:8080/roomsAvailables`, {
             method: 'GET',
             credentials: 'include'
         })
             .then(res => res.json()
                 .then(data => {
-                    //Desactivo el loader
                     setLoader(false)
                     if (res.status === 200) {
-                        setBooking(data)
-                    } else if (res.status === 500) {
+                        setRooms(data)
+                    } else if (res.status === 404 || res.status === 500) {
                         MySwal.fire({
                             show: true,
                             title: `<strong>${data.message}</strong>`,
@@ -47,11 +46,20 @@ function RoomsState() {
         return <Loader />
     }
 
+    if(rooms.length === 0){
+        return(
+            <main>
+                <NavMenu />
+                <h1 className="tittle">¡No hay habitaciones disponibles! 🫤</h1>
+            </main>
+        )
+    }
+
     return (
         <main>
             <NavMenu />
             <div className="containerCardsRooms">
-                {bookings.map((item) => (
+                {rooms.map((item) => (
                     <div className="cardRoomContainer">
                         {
                             item.type === 'Sencilla' ? (
@@ -67,13 +75,7 @@ function RoomsState() {
                             <p><strong>Habitacion: </strong>{item.roomNumber}</p>
                             <p><strong>Tipo: </strong>{item.type}</p>
                             <p><strong>Precio: </strong>${item.price}</p>
-                            {item.state === "Disponible" ? <p style={{
-                                color: "green",
-                                fontWeight: "bolder"
-                            }}>{item.state}</p> : <p style={{
-                                color: "red",
-                                fontWeight: "bolder"
-                            }}>{item.state}</p>}
+                            <p style={{ color: "green", fontWeight: "bolder" }}>{item.state}</p>
                         </div>
                     </div>
                 ))}
@@ -82,4 +84,4 @@ function RoomsState() {
     )
 }
 
-export default RoomsState;
+export default RoomsAvailables;

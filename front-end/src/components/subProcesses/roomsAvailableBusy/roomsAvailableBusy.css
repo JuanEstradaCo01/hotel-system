@@ -1,0 +1,44 @@
+.roomsAvailables,
+.roomsBusies {
+    width: 27.5rem;
+    height: 25rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 4.5rem;
+
+    img {
+        width: 90%;
+        height: 90%;
+    }
+
+    &:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 12px 24px rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+    }
+}
+
+.containerCardsRoomsAB {
+    height: 100vh;
+    background-color: rgb(151, 151, 134);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+
+    a{
+        color: black;
+        text-decoration-color: transparent;
+    }
+
+    h5{
+        font-weight: bolder;
+        font-family: cursive;
+        font-size: 1.5rem;
+
+    }
+}

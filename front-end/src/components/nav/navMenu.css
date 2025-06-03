@@ -1,0 +1,18 @@
+.navbar {
+    background-color: #009c41 !important;
+    padding: 2rem;
+    margin: 0rem !important;
+
+    a {
+        color: white;
+        font-weight: bolder;
+    }
+
+    .navbar-toggler {
+        background-color: rgb(255, 255, 255) !important;
+    }
+}
+
+.nav-link:hover {
+    color: rgb(0, 189, 0) !important;
+}
