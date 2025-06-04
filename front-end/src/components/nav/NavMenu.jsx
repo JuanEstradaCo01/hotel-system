@@ -24,12 +24,11 @@ function NavMenu() {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link href="/nuevareserva">Nueva reserva</Nav.Link>
+                                    <Nav.Link href="/newBooking">Nueva reserva</Nav.Link>
                                     <Nav.Link href="/rooms">Estado habitaciones</Nav.Link>
-                                    <Nav.Link href="/ocupadas-libres">Habitaciones Ocupadas/Libres</Nav.Link>
-                                    <Nav.Link href="/liberar">Liberar</Nav.Link>
-                                    <Nav.Link href="/facturacion">Facturacion</Nav.Link>
-                                    <Nav.Link href="/reporte">Reporte</Nav.Link>
+                                    <Nav.Link href="/roomsState">Habitaciones Ocupadas/Libres</Nav.Link>
+                                    <Nav.Link href="/releaseRooms">Liberar</Nav.Link>
+                                    <Nav.Link href="/billing">Facturacion</Nav.Link>
                                 </Nav>
                             </Offcanvas.Body>
                         </Navbar.Offcanvas>

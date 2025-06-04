@@ -9,6 +9,7 @@ import RoomsAvailableBusy from './components/subProcesses/roomsAvailableBusy/Roo
 import RoomsAvailables from './components/subProcesses/roomsAvailableBusy/roomsAvailables/RoomsAvailables.jsx';
 import RoomsBusies from './components/subProcesses/roomsAvailableBusy/roomsBusies/RoomsBusies.jsx';
 import ReleaseRoom from './components/subProcesses/releaseRoom/ReleaseRoom.jsx';
+import Billing from './components/subProcesses/billing/Billing.jsx';
 import NotFoundPage from './components/notFoundPage/NotFoundPage.jsx';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/roomsAvailables" element={<RoomsAvailables />} />
                     <Route path="/roomsBusies" element={<RoomsBusies />} />
                     <Route path="/releaseRooms" element={<ReleaseRoom />} />
+                    <Route path="/billing" element={<Billing />} />
                     <Route path='*' element={<NotFoundPage />} />
                 </Routes>
             </BrowserRouter>

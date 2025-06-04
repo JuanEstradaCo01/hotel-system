@@ -196,6 +196,20 @@ roomRouter.put("/releaseRooms/:rid", async (req, res) => {
             })
         }
 
+        //Valido y elimino reserva
+        const bookings = await bookingDao.getBookings()
+        const booking = bookings.find(item => item.roomNumber == room.roomNumber)
+
+        if(!booking){
+            return res.status(404).json({
+                message: "La habitacion no tiene reserva"
+            })
+        }
+
+        //Elimino reserva
+        await bookingDao.deleteBooking(booking._id)
+
+        //Libero habitacion
         await roomDao.updateStateRoom(rid, {
             state: "Disponible"
         })
@@ -206,6 +220,84 @@ roomRouter.put("/releaseRooms/:rid", async (req, res) => {
     }catch{
         return res.status(500).json({
             message: "Error al liberar la habitacion"
+        })
+    }
+})
+
+//Consultar reservas
+roomRouter.get("/bookings", async (req, res) => {
+    try{
+        const bookings = await bookingDao.getBookings()
+
+        return res.status(200).json(bookings)
+    }catch{
+        return res.status(500).json({
+            message: "Error al consultar las reservas"
+        })
+    }
+})
+
+//Facturando
+roomRouter.get("/billing/:roomNumber", async (req, res) => {
+    try{
+        const roomNumber = req.params.roomNumber
+
+        const rooms = await roomDao.getRooms()
+        const bookings = await bookingDao.getBookings()
+
+        const room = rooms.find(item => item.roomNumber == roomNumber)
+
+        if(!room){
+            return res.status(404).json({
+                message: "La habitacion no existe"
+            })
+        }
+
+        const booking = bookings.find(item => item.roomNumber == roomNumber)
+
+        if(!booking){
+            return res.status(404).json({
+                message: "La reserva no existe"
+            })
+        }
+
+        const subTotal = room.price * booking.nightsQuantity;
+        //Numero random para consumos adicionales
+        const adicional = Math.floor(Math.random() * 20) + 1;
+        const total = subTotal + adicional
+        //Calculo el valor del impuesto (18%)
+        const impuesto = total * 0.18
+        const totalPagar = total + impuesto
+
+        const billInfo = {
+            nombre: booking.guestName,
+            tipo: room.type,
+            price: totalPagar,
+            consumo: adicional,
+            impuesto: impuesto,
+            precioPorNoche: room.price,
+            noches: booking.nightsQuantity
+        }
+
+        return res.status(200).json(billInfo)
+    }catch{
+        return res.status(500).json({
+            message: "Error al generar la factura"
+        })
+    }
+})
+
+//
+roomRouter.get("/initSystem", async (req, res) => {
+    try{
+        const ok = "Servidor iniciado"
+
+        return res.status(200).json({
+            message: ok
+        })
+    }catch{
+        return res.status(500).json({
+            message: "Error al iniciar el sistema"
         })
     }
 })

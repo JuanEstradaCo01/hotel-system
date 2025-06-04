@@ -6,7 +6,6 @@ import EstadoHabitaciones from "../../imgs/estadoHabitacion.png";
 import Habitacion from "../../imgs/habitacion.png";
 import Liberar from "../../imgs/liberar.png";
 import Facturacion from "../../imgs/facturacion.png";
-import Reporte from "../../imgs/reporteIngresos.png";
 
 function DashBoard() {
     return (
@@ -60,21 +59,15 @@ function DashBoard() {
                     </div>
                 </Link>
 
-                <div className="cardDashboardContainer">
-                    <img src={Facturacion} alt="Nueva reserva" />
+                <Link to={"/billing"}>
+                    <div className="cardDashboardContainer">
+                        <img src={Facturacion} alt="Nueva reserva" />
 
-                    <div className="tittleCardDashboardContainer">
-                        <h3>Facturación</h3>
+                        <div className="tittleCardDashboardContainer">
+                            <h3>Facturación</h3>
+                        </div>
                     </div>
-                </div>
-
-                <div className="cardDashboardContainer">
-                    <img src={Reporte} alt="Nueva reserva" />
-
-                    <div className="tittleCardDashboardContainer">
-                        <h3>Reporte ingresos</h3>
-                    </div>
-                </div>
+                </Link>
 
             </div>
         </main>
