@@ -267,14 +267,15 @@ roomRouter.get("/billing/:roomNumber", async (req, res) => {
         const total = subTotal + adicional
         //Calculo el valor del impuesto (18%)
         const impuesto = total * 0.18
-        const totalPagar = total + impuesto
+        const impuestoRedondeado = parseFloat(impuesto.toFixed(2));
+        const totalPagar = total + impuestoRedondeado
 
         const billInfo = {
             nombre: booking.guestName,
             tipo: room.type,
             price: totalPagar,
             consumo: adicional,
-            impuesto: impuesto,
+            impuesto: impuestoRedondeado,
             precioPorNoche: room.price,
             noches: booking.nightsQuantity
         }
