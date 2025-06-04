@@ -19,7 +19,7 @@ function RoomsAvailables() {
 
         setLoader(true)
 
-        fetch(`http://localhost:8080/roomsAvailables`, {
+        fetch(`${process.env.REACT_APP_URL_BACK}/roomsAvailables`, {
             method: 'GET',
             credentials: 'include'
         })

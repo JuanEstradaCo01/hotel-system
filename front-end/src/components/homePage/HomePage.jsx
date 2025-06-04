@@ -10,7 +10,7 @@ function HomePage() {
 
     function initSystem() {
         setState(true)
-        fetch(`http://localhost:8080/initSystem`, {
+        fetch(`${process.env.REACT_APP_URL_BACK}/initSystem`, {
             method: 'GET',
             credentials: 'include'
         })

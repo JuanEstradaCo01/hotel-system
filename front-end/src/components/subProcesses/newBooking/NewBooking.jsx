@@ -29,7 +29,7 @@ function NewBooking() {
             nightsQuantity: nights
         }
 
-        await fetch(`http://localhost:8080/newBooking`, {
+        await fetch(`${process.env.REACT_APP_URL_BACK}/newBooking`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

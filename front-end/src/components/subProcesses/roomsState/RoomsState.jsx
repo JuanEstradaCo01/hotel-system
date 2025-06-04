@@ -19,7 +19,7 @@ function RoomsState() {
         //Activo el loader
         setLoader(true)
 
-        fetch(`http://localhost:8080/rooms`, {
+        fetch(`${process.env.REACT_APP_URL_BACK}/rooms`, {
             method: 'GET',
             credentials: 'include'
         })

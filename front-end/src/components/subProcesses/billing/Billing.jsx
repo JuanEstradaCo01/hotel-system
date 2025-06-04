@@ -39,7 +39,7 @@ function Billing() {
 
     function fetchRequestGet() {
         setLoader(true)
-        fetch(`http://localhost:8080/roomsBusies`, {
+        fetch(`${process.env.REACT_APP_URL_BACK}/roomsBusies`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -64,7 +64,7 @@ function Billing() {
 
     function fetchRequest(id) {
 
-        fetch(`http://localhost:8080/billing/${id}`, {
+        fetch(`${process.env.REACT_APP_URL_BACK}/billing/${id}`, {
             method: 'GET',
             credentials: 'include'
         })

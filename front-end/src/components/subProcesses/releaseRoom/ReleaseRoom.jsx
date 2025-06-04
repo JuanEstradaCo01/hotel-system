@@ -8,18 +8,16 @@ import Swal from "sweetalert2";
 import withReactComponent from "sweetalert2-react-content";
 import Loader from "../../loader/Loader.jsx";
 import Button from 'react-bootstrap/Button';
-import MiniLoader from "../../miniLoader/MiniLoader.jsx";
 
 function ReleaseRoom() {
 
     const [rooms, setRooms] = useState([]);
     const [loader, setLoader] = useState(false)
-    const [miniLoader, setMiniLoader] = useState(false)
     const MySwal = withReactComponent(Swal)
 
     function fetchRequestGet() {
         setLoader(true)
-        fetch(`http://localhost:8080/roomsBusies`, {
+        fetch(`${process.env.REACT_APP_URL_BACK}/roomsBusies`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -43,14 +41,12 @@ function ReleaseRoom() {
     }
 
     function fetchRequestPut(id) {
-        setMiniLoader(true)
-        fetch(`http://localhost:8080/releaseRooms/${id}`, {
+        fetch(`${process.env.REACT_APP_URL_BACK}/releaseRooms/${id}`, {
             method: 'PUT',
             credentials: 'include'
         })
             .then(res => res.json()
                 .then(data => {
-                    setMiniLoader(false)
                     if (res.status === 200) {
                         MySwal.fire({
                             show: true,

@@ -19,7 +19,7 @@ function RoomsBusies() {
 
         setLoader(true)
 
-        fetch(`http://localhost:8080/roomsBusies`, {
+        fetch(`${process.env.REACT_APP_URL_BACK}/roomsBusies`, {
             method: 'GET',
             credentials: 'include'
         })
